@@ -16,3 +16,4 @@ Typescript ne connaissait pas Set => ajout de @types/core-js
 Pleins de types manquants => passage en target es2017
 Typescript ne trouve pas mes dépendances => ajout de `"moduleResolution": "Node"`
 Node ne connait pas `import` => utilisation de typescript-node pour lancer le truc …
+Typescript ne connaissait pas la lib standard NodeJS => ajout de @types/node
