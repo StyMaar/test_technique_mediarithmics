@@ -69,7 +69,7 @@ async function recursivelyExploreCastle(roomUrl: String){
 
   let { rooms, chests } = await room;
 
-  await Promise.all(chests.map( (url: String) => recursivelyExploreCastle(url)));
+  await Promise.all(chests.map( (url: String) => openChest(url)));
 
   await Promise.all(rooms.map( (url: String) => recursivelyExploreCastle(url)));
   // the function won't return until every room has been explored
