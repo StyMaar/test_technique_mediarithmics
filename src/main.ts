@@ -5,6 +5,10 @@ const EMPTY_CHEST = "This chest is empty :/ Try another one!";
 const alreadyVisitedRooms = new Set();
 const foundTreasures : Array<String> = [];
 
+const NUMBER_RETRY = 5;
+
+const ROOT_URL = "http://castles.poulpi.fr";
+
 interface Chest{
   id: String,
   status: String,
@@ -20,28 +24,35 @@ interface Room {
   chests: Array<String>,
 }
 
+async function makeRequest(url: String, failures : number = 0): Promise<any> {
+  try {
+    let response = await axios({
+        method: 'get',
+        url: `${ROOT_URL}${url}`,
+    });
+    return response.data;
+  }catch(e){
+    failures++;
+    if(failures > NUMBER_RETRY){
+      throw e;
+    }else{
+      makeRequest(url, failures);
+    }
+  }
+}
+
+
 function checkAndVisitRoom(roomUrl: String) : Promise<Room> | null {
   if (alreadyVisitedRooms.has(roomUrl)) {
     return null;
   }
   alreadyVisitedRooms.add(roomUrl)
-  return fetchRoom(roomUrl);
+  return makeRequest(roomUrl);
 }
 
-async function fetchRoom(roomUrl: String) : Promise<Room> {
-  let response = await axios({
-    method:'get',
-    url:`http://castles.poulpi.fr${roomUrl}`,
-  });
-  return response.data;
-}
 
 async function openChest(chestUrl: String) {
-  let response = await axios({
-    method:'get',
-    url:`http://castles.poulpi.fr${chestUrl}`,
-  });
-  let chest : Chest = response.data;
+  let chest : Chest = await makeRequest(chestUrl);
 
   if (isChestEmpty(chest)) {
     foundTreasures.push(`http://castles.poulpi.fr/castles/1/chests/${chest.id}`);
