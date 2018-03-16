@@ -1,6 +1,6 @@
 # Test technique «Castles V1»
 
-##Structure du code :
+## Structure du code :
 
 Tout se trouve dans `src/main.ts`.
 Il n'y a pas de tests unitaires car je n'ai pas trouvé rapidement comment faire du “rewiring de modules” en TypeScript.
