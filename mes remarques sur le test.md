@@ -8,3 +8,11 @@ Question : y a-t-il un rate-limiter sur le site cible ? Réfléchir au schedulin
 
 Pas de linter, ni de test unitaire => méconnaissance de l'environnement Typescript
 Pas de “newtype pattern” en Typescript (Sad)
+
+
+### Problèmes rencontrés :
+
+Typescript ne connaissait pas Set => ajout de @types/core-js
+Pleins de types manquants => passage en target es2017
+Typescript ne trouve pas mes dépendances => ajout de `"moduleResolution": "Node"`
+Node ne connait pas `import` => utilisation de typescript-node pour lancer le truc …
